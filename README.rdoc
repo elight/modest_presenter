@@ -1,19 +1,97 @@
-= stupid_presenter
+= A modest presenter
 
-Description goes here.
+modest_presenter is a fairly simple base class for objects that you want to act as a Presenter for an arbitrary templating language.  It should be fairly templating language agnostic--though the supplied example works in ERB.
 
-== Contributing to stupid_presenter
- 
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
-* Fork the project.
-* Start a feature/bugfix branch.
-* Commit and push until you are happy with your contribution.
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+== Example
+
+    Person = Struct.new(:first_name, :last_name, :age)
+    InsanePerson = Class.new(Person)
+    Nerd = Class.new(Person)
+
+    evan = Nerd.new("Evan", "Light", 38)
+    ed = Nerd.new("Ed", "Kim", 27)
+    # Seems a bit generous calling this guy a Person
+    w = InsanePerson.new("George W.", "Bush", 66)
+
+    class PersonPresenter < ModestPresenters::ModestPresenter
+      def name
+        "#{first_name} #{last_name}"
+      end
+
+      def title
+      end
+    end
+
+    evan = Nerd.new("Evan", "Light", 38)
+    ed = Nerd.new("Ed", "Kim", 27)
+
+    # Seems a bit generous calling this guy a Person
+    w = InsanePerson.new("George W.", "Bush", 66)
+
+    class PersonPresenter < ModestPresenters::ModestPresenter
+      def name
+        "#{first_name} #{last_name}"
+      end
+
+      def title
+      end
+    end
+
+    class NerdPresenter < PersonPresenter
+      def name
+        "#{super} is a nerd."
+      end
+    end
+
+    class InsanePersonPresenter < PersonPresenter
+      def name
+        "#{super} wastes oxygen better used by nerds."
+      end
+
+      def title
+        "President "
+      end
+    end
+
+    def present(model, context, &block)
+      Object.const_get("#{model.class}Presenter")
+            .new(model, context)
+            .present(&block)
+    end
+
+    people = [evan, ed, w]
+
+    ERB_TEMPLATE = <<-ERB
+      <ul>
+        <% people.each do |person| %>
+          <% present(person, self) do %>
+            <li>
+              <%= title %><%= name %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+      <p>Yes, only insane people are President</p>
+    ERB
+
+    require 'erb'
+    puts ERB.new(ERB_TEMPLATE).result(binding)
+
+    # OUTPUTS:
+    # <ul>
+    #   <li>
+    #     Evan Light is a nerd.
+    #   </li>
+    #   <li>
+    #     Ed Kim is a nerd.
+    #   </li>
+    #   <li>
+    #     President George W. Bush wastes oxygen better used by nerds.
+    #   </li>
+    # </ul>
+    # <p>Yes, only insane people are President</p>
 
 == Copyright
 
-Copyright (c) 2012 Evan Light. See LICENSE.txt for
-further details.
+Copyright (c) 2012 Evan Light. MIT Licensed.
 

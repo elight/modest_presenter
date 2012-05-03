@@ -2,6 +2,8 @@
 
 modest_presenter is a fairly simple base class for objects that you want to act as a Presenter for an arbitrary templating language.  It should be fairly templating language agnostic--though the supplied example works in ERB.
 
+I extracted this from a couple of projects where I've found myself writing this very same thing.
+
 == Example
 
     Person = Struct.new(:first_name, :last_name, :age)

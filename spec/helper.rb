@@ -11,6 +11,6 @@ require 'minitest/spec'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'stupid_presenter'
+require 'modest_presenter'
 
 require 'minitest/autorun'

@@ -1,7 +1,7 @@
 require 'helper'
 
-class StupidPresenterSpec < MiniTest::Spec
-  include StupidPresenters
+class ModestPresenterSpec < MiniTest::Spec
+  include ModestPresenters
 
   class Person < Struct.new(:first_name, :last_name)
   end
@@ -14,7 +14,7 @@ class StupidPresenterSpec < MiniTest::Spec
     attr_accessor :department, :professorship, :teaching_courses
   end
 
-  class PersonPresenter < StupidPresenter
+  class PersonPresenter < ModestPresenter
     def full_name
       "#{first_name} #{last_name}"
     end
@@ -36,7 +36,7 @@ class StupidPresenterSpec < MiniTest::Spec
     StudentPresenter.new(student, Object.new, :is_learning_ruby => true)
   end
 
-  describe "A stupid presenter" do
+  describe "A modest presenter" do
     before do
       @student = Student.new("Ed", "Kim")
       @context = Struct.new(:render).new("you called render")

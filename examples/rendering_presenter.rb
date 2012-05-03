@@ -1,18 +1,18 @@
 $LOAD_PATH << "../lib"
 
-require 'stupid_presenter'
+require 'modest_presenter'
 
 Person = Struct.new(:first_name, :last_name, :age)
-StupidPerson = Class.new(Person)
+InsanePerson = Class.new(Person)
 Nerd = Class.new(Person)
 
 evan = Nerd.new("Evan", "Light", 38)
 ed = Nerd.new("Ed", "Kim", 27)
 
 # Seems a bit generous calling this guy a Person
-w = StupidPerson.new("George W.", "Bush", 66)
+w = InsanePerson.new("George W.", "Bush", 66)
 
-class PersonPresenter < StupidPresenters::StupidPresenter
+class PersonPresenter < ModestPresenters::ModestPresenter
   def name
     "#{first_name} #{last_name}"
   end
@@ -27,7 +27,7 @@ class NerdPresenter < PersonPresenter
   end
 end
 
-class StupidPersonPresenter < PersonPresenter
+class InsanePersonPresenter < PersonPresenter
   def name
     "#{super} wastes oxygen better used by nerds."
   end
@@ -55,7 +55,7 @@ ERB_TEMPLATE = <<-ERB
       <% end %>
     <% end %>
   </ul>
-  <p>Yes, only stupid people are President</p>
+  <p>Yes, only insane people are President</p>
 ERB
 
 require 'erb'
@@ -73,3 +73,4 @@ puts ERB.new(ERB_TEMPLATE).result(binding)
 #     President George W. Bush wastes oxygen better used by nerds.
 #   </li>
 # </ul>
+# <p>Yes, only insane people are President</p>

@@ -1,5 +1,5 @@
-module StupidPresenters
-  class StupidPresenter
+module ModestPresenters
+  class ModestPresenter
     attr_reader :model, :context
 
     def initialize(model, context, args = {})

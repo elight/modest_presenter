@@ -24,21 +24,6 @@ I extracted this from a couple of projects where I've found myself writing this 
       end
     end
 
-    evan = Nerd.new("Evan", "Light", 38)
-    ed = Nerd.new("Ed", "Kim", 27)
-
-    # Seems a bit generous calling this guy a Person
-    w = InsanePerson.new("George W.", "Bush", 66)
-
-    class PersonPresenter < ModestPresenters::ModestPresenter
-      def name
-        "#{first_name} #{last_name}"
-      end
-
-      def title
-      end
-    end
-
     class NerdPresenter < PersonPresenter
       def name
         "#{super} is a nerd."
